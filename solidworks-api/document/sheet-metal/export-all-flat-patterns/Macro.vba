@@ -295,7 +295,13 @@ Function GetFlatPatternFeatures(model As SldWorks.ModelDoc2) As Variant
 End Function
 
 Sub ProcessSheetMetalModel(rootModel As SldWorks.ModelDoc2, sheetMetalModel As SldWorks.ModelDoc2, conf As String)
-        
+    
+    If sheetMetalModel.ConfigurationManager.ActiveConfiguration.Name <> conf Then
+        If False = sheetMetalModel.ShowConfiguration2(conf) Then
+            Err.Raise vbError, "", "Failed to activate configuration"
+        End If
+    End If
+                                            
     Dim vCutListFeats As Variant
     vCutListFeats = GetCutListFeatures(sheetMetalModel)
     
